@@ -1,4 +1,6 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:sunderban/screens/homepage.dart';
 
 void main() {
   runApp(MyApp());
@@ -52,27 +54,38 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    var bodies = [HomePage(), Container()];
+
+    var body = bodies[0];
+
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Row(
-          children: [
-            Text("Sunderban"),
-            Icon(Icons.shopping_basket),
-          ],
+        appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          title: Row(
+            children: [Text("Sunderban"), Icon(Icons.shopping_basket)],
+          ),
         ),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: 0,
+          showElevation: true,
+          items: [
+            BottomNavyBarItem(
+                icon: Icon(Icons.whatshot), title: Text("Showcase")),
+            BottomNavyBarItem(
+                icon: Icon(Icons.thumb_up),
+                title: Text("On"),
+                activeColor: (Colors.red))
+          ],
+          onItemSelected: (int value) {
+            setState(() {
+              print("$value");
+              body = bodies[value];
+            });
+          },
+        ),
+        body:
+            body // This trailing comma makes auto-formatting nicer for build methods.
+        );
   }
 }
