@@ -26,7 +26,7 @@ dependencies:
   bottom_navy_bar: ^5.4.0
   font_awesome_flutter: ^8.8.1
   carousel_pro: ^1.0.0
-  animations: ^1.1.0
+  animations:
 
 
 

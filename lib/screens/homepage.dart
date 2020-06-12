@@ -1,6 +1,8 @@
+import 'package:animations/animations.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:sunderban/database/items.dart';
+import 'package:sunderban/screens/itemscreen.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,8 +22,8 @@ class _HomePageState extends State<HomePage> {
                 showIndicator: false,
                 images: citems
                     .map((e) => Image.network(
-                          e.imageUrl,
-                        ))
+                  e.imageUrl,
+                ))
                     .toList(),
                 animationCurve: Curves.fastOutSlowIn,
                 animationDuration: Duration(seconds: 2),
@@ -32,11 +34,17 @@ class _HomePageState extends State<HomePage> {
                 crossAxisCount: 2,
                 shrinkWrap: true,
                 children: items.map((e) {
-                  return GestureDetector(
-                      onTap: () {
-                        print(e.item);
-                      },
-                      child: getStyledCard(e));
+                  return OpenContainer(
+                    transitionDuration: Duration(milliseconds: 500),
+                    openBuilder: (BuildContext context, VoidCallback action) =>
+                        ItemScreen(
+                      item: e,
+                    ),
+                    closedBuilder:
+                        (BuildContext context, VoidCallback action) =>
+                            getStyledCard(e),
+                    tappable: true,
+                  );
                 }).toList(),
               ),
             )
@@ -75,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             child: Text(
               e.item,
               style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
           ),
         ),
