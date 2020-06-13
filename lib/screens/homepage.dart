@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sunderban/database/items.dart';
 import 'package:sunderban/screens/itemscreen.dart';
 
@@ -22,8 +23,8 @@ class _HomePageState extends State<HomePage> {
                 showIndicator: false,
                 images: citems
                     .map((e) => Image.network(
-                  e.imageUrl,
-                ))
+                          e.imageUrl,
+                        ))
                     .toList(),
                 animationCurve: Curves.fastOutSlowIn,
                 animationDuration: Duration(seconds: 2),
@@ -42,7 +43,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                     closedBuilder:
                         (BuildContext context, VoidCallback action) =>
-                            getStyledCard(e),
+                            getStyledCard(
+                      item: e,
+                    ),
                     tappable: true,
                   );
                 }).toList(),
@@ -53,8 +56,32 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
 
-  AspectRatio getStyledCard(Items e) {
+// ignore: must_be_immutable
+class getStyledCard extends StatefulWidget {
+  Items item;
+
+  getStyledCard({this.item});
+
+  @override
+  _getStyledCardState createState() => _getStyledCardState();
+}
+
+class _getStyledCardState extends State<getStyledCard> {
+  Items e;
+  bool active = false;
+  var _icon;
+  @override
+  void initState() {
+    e = widget.item;
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     return AspectRatio(
       aspectRatio: 3 / 2.2,
       child: Container(
@@ -78,13 +105,29 @@ class _HomePageState extends State<HomePage> {
                 Colors.black.withOpacity(0.2),
                 Colors.black.withOpacity(0),
               ])),
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              e.item,
-              style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-            ),
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: !active ? FaIcon(FontAwesomeIcons.heart,) : FaIcon(FontAwesomeIcons.solidHeart, color: Colors.red,),
+                  onPressed: () {
+                    setState(() {
+                      active = !active;
+                      print(active);
+                    });
+                  },
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  e.item,
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
         ),
       ),
