@@ -2,6 +2,7 @@ import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:sunderban/screens/homepage.dart';
 import 'package:sunderban/screens/login.dart';
+import 'package:sunderban/screens/watchlist.dart';
 
 void main() {
   runApp(MyApp());
@@ -79,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: Icon(Icons.whatshot), title: Text("Showcase")),
             BottomNavyBarItem(
                 icon: Icon(Icons.thumb_up),
-                title: Text("On"),
+                title: Text("On Watchlist"),
                 activeColor: (Colors.red))
           ],
           onItemSelected: (int value) {
@@ -87,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
               print("$value");
               currentIndex = value;
             });
+            _pageController.animateToPage(currentIndex, duration: Duration(milliseconds: 200), curve: Curves.bounceInOut);
           },
         ),
         body: SizedBox.expand(
@@ -99,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             children: [
               HomePage(),
-              Container()
+              Watchlist()
             ],
           ),
         )
